@@ -21,8 +21,10 @@ can be generated with -s 0.01 -m 90.
 END
 };
 
-require 'getopts.pl';
-&Getopts('ags:m:ql') || usage;
+use Getopt::Std;
+#require 'getopts.pl';
+#&Getopts('ags:m:ql') || usage;
+getopts('ags:m:ql') || usage;
 
 # calculate offsets.  Do we need this?
 # $offset = int($modulus / 10 + 1) * 10;

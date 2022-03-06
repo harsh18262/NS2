@@ -26,8 +26,10 @@ END
 };
 $usage = "usage: $progname [-a] [trace files...]\n";
 
-require 'getopts.pl';
-&Getopts('aAfFs:m:n:qt:') || usage;
+use Getopt::Std;
+#require 'getopts.pl';
+#&Getopts('aAfFs:m:n:qt:') || usage;
+getopts('aAfFs:m:n:qt:') || usage;
 
 $c = 0;
 @pplus = @pminus = ();
