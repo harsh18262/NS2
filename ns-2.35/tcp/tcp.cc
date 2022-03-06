@@ -59,7 +59,7 @@ public:
 
 static class TcpClass : public TclClass {
 public:
-	TcpClass() : TclClass("Agent/TCP") {}
+	TcpClass() : TclClass("Agent/TCP/Reno") {}
 	TclObject* create(int , const char*const*) {
 		return (new TcpAgent());
 	}

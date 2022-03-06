@@ -5641,7 +5641,6 @@ TCL_LIB_PLACES=" \
                 $x_libs \
                 /usr/lib64 \
                 /usr/lib \
-		/usr/lib/$DEB_HOST_MULTIARCH \
 		"
 
 
@@ -6209,9 +6208,7 @@ TK_LIB_PLACES=" \
                 $x_libs/tk \
                 $x_libs \
                 /usr/lib64 \
-                /usr/lib \
-		/usr/lib/$DEB_HOST_MULTIARCH \
-		"
+                /usr/lib"
 
 
 NS_PACKAGE_tk_UNDERWAY=false

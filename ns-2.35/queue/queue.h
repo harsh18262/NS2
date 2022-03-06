@@ -59,15 +59,38 @@ public:
 		bytes_ += hdr_cmn::access(p)->size();
 		return pt;
 	}
-	virtual Packet* deque() {
-		if (!head_) return 0;
+
+	virtual Packet* deque()
+	{
+		if(!head_) return 0;
 		Packet* p = head_;
-		head_= p->next_; // 0 if p == tail_
-		if (p == tail_) head_= tail_= 0;
+
+		if (p == tail_)
+		{
+			head_ = tail_ = 0;
+		}
+
+		else
+		{
+			int index = rand() % len_;
+			while(index--)
+			{
+				if(p == tail_) break;
+				p = p->next_;
+			}
+			
+		}
+
+		//if (!head_) return 0;
+		//Packet* p = head_;
+		//head_= p->next_; // 0 if p == tail_
+		//if (p == tail_) head_= tail_= 0;
 		--len_;
+
 		bytes_ -= hdr_cmn::access(p)->size();
 		return p;
 	}
+
 	Packet* lookup(int n) {
 		for (Packet* p = head_; p != 0; p = p->next_) {
 			if (--n < 0)

@@ -48,8 +48,8 @@ public:
 } class_OmniAntenna;
 
 OmniAntenna::OmniAntenna() {
-  Gt_ = 1.0;
-  Gr_ = 1.0;
+  Gt_ = 3.0;
+  Gr_ = 3.0;
   bind("Gt_", &Gt_);
   bind("Gr_", &Gr_);
 }

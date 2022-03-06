@@ -163,9 +163,7 @@ TK_LIB_PLACES=" \
                 $x_libs/tk \
                 $x_libs \
                 /usr/lib64 \
-                /usr/lib \
-		/usr/lib/$DEB_HOST_MULTIARCH \
-		"
+                /usr/lib"
 
 NS_BEGIN_PACKAGE(tk)
 NS_CHECK_HEADER_PATH(tk.h,$TK_H_PLACES,$d,$TK_H_PLACES_D,V_INCLUDE_TK,tk)

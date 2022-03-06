@@ -243,7 +243,7 @@ int main(int argc, char**argv)
 	// Init tcl
 	Tcl_Interp *interp = Tcl_CreateInterp();
 	if (Tcl_Init(interp) == TCL_ERROR) {
-		printf("%s\n", Tcl_GetStringResult(interp));
+		printf("%s\n", interp->result);
 		abort();
 	}
 	Tcl_InitHashTable(&cidHash, TCL_STRING_KEYS);

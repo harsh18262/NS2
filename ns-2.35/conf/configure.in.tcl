@@ -199,7 +199,6 @@ TCL_LIB_PLACES=" \
                 $x_libs \
                 /usr/lib64 \
                 /usr/lib \
-		/usr/lib/$DEB_HOST_MULTIARCH \
 		"
 
 dnl Decide which set of .tcl library files to use

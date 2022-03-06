@@ -456,9 +456,9 @@ DSDV_Agent::makeUpdate(int& periodic)
        (prte = table_->NextLoop ()); )
     {
       rtbl_sz++;
-      if ((prte->advert_seqnum || prte->advert_metric) 
+/*      if (zprte->advert_metric 
 	  && prte->advertise_ok_at <= now) 
-	change_count++;
+	change_count++;*/
 
       if (prte->advertise_ok_at > now) unadvertiseable++;
     }
@@ -530,8 +530,8 @@ DSDV_Agent::makeUpdate(int& periodic)
 	}
 
       if (periodic || 
-	  ((prte->advert_seqnum || prte->advert_metric) 
-	   && prte->advertise_ok_at <= now))
+	  (prte->advert_metric) 
+	   && prte->advertise_ok_at <= now)
 	{ // include this rte in the advert
 	  if (!periodic && verbose_)
 	    trace ("VCT %.5f _%d_ %d", now, myaddr_, prte->dst);
@@ -666,7 +666,7 @@ DSDV_Agent::processUpdate (Packet * p)
       // If it's in the table, make it the same timeout and queue.
       if (prte)
 	{ // we already have a route to this dst
-	  if (prte->seqnum == rte.seqnum)
+	  /*if (prte->seqnum == rte.seqnum)
 	    { // we've got an update with out a new squenece number
 	      // this update must have come along a different path
 	      // than the previous one, and is just the kind of thing
@@ -675,9 +675,9 @@ DSDV_Agent::processUpdate (Packet * p)
 	      // this code is now a no-op left here for clarity -dam XXX
 	      rte.wst = prte->wst;
 	      rte.new_seqnum_at = prte->new_seqnum_at;
-	    }
-	  else 
-	    { // we've got a new seq number, end the measurement period
+	    }*/
+	  //else 
+	    //{ // we've got a new seq number, end the measurement period
 	      // for wst over the course of the old sequence number
 	      // and update wst with the difference between the last
 	      // time we changed the route (which would be when the 
@@ -690,7 +690,7 @@ DSDV_Agent::processUpdate (Packet * p)
 	      rte.wst = alpha_ * prte->wst + 
 		(1.0 - alpha_) * (prte->changed_at - prte->new_seqnum_at);
 	      rte.new_seqnum_at = now;
-	    }
+	    //}
 	}
       else
 	{ // inititallize the wst for the new route
@@ -704,6 +704,16 @@ DSDV_Agent::processUpdate (Packet * p)
       else
 	rte.advertise_ok_at = now;
 
+
+
+
+
+
+
+
+
+
+
       /*********** decide whether to update our routing table *********/
       if (!prte)
 	{ // we've heard from a brand new destination
@@ -714,7 +724,35 @@ DSDV_Agent::processUpdate (Packet * p)
 	    }
 	  updateRoute(prte,&rte);
 	}
-      else if ( prte->seqnum == rte.seqnum )
+  else
+  {
+    if (rte.metric < prte->metric) 
+      { // a shorter route!
+        if (rte.metric == prte->last_advertised_metric)
+    { // we've just gone back to a metric we've already advertised
+      rte.advert_metric = false;
+      trigger_update = false;
+    }
+        else
+    { // we're changing away from the last metric we announced
+      rte.advert_metric = true;
+      trigger_update = true;
+    }
+        updateRoute(prte,&rte);
+      }
+    else
+      { // ignore the longer route
+      }
+  }
+
+
+
+
+
+
+
+
+/*      else if ( prte->seqnum == rte.seqnum )
 	{ // stnd dist vector case
 	  if (rte.metric < prte->metric) 
 	    { // a shorter route!
@@ -733,8 +771,8 @@ DSDV_Agent::processUpdate (Packet * p)
 	  else
 	    { // ignore the longer route
 	    }
-	}
-      else if ( prte->seqnum < rte.seqnum )
+	}*/
+/*      else if ( prte->seqnum < rte.seqnum )
 	{ // we've heard a fresher sequence number
 	  // we *must* believe its rt metric
 	  rte.advert_seqnum = true;	// we've got a new seqnum to advert
@@ -754,8 +792,8 @@ DSDV_Agent::processUpdate (Packet * p)
 #else
 	  trigger_update = false;
 #endif
-	}
-      else if ( prte->seqnum > rte.seqnum )
+	}*/
+/*      else if ( prte->seqnum > rte.seqnum )
 	{ // our neighbor has older sequnum info than we do
 	  if (rte.metric == BIG && prte->metric != BIG)
 	    { // we must go forth and educate this ignorant fellow
@@ -769,13 +807,13 @@ DSDV_Agent::processUpdate (Packet * p)
 	  else
 	    { // we don't care about their stale info
 	    }
-	}
-      else
+	}*/
+/*      else
 	{
 	  fprintf(stderr,
 		  "%s DFU: unhandled adding a route entry?\n", __FILE__);
 	  abort();
-	}
+	}*/
       
       if (trigger_update)
 	{

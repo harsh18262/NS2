@@ -34,10 +34,8 @@ END
 };
 $usage = "usage: $progname [-a] [trace files...]\n";
 
-use Getopt::Std;
-#require 'getopts.pl';
-#&Getopts('acefgds:m:n:qrplvt:xy') || usage;
-getopts('acefgds:m:n:qrplvt:xy') || usage;
+require 'getopts.pl';
+&Getopts('acefgds:m:n:qrplvt:xy') || usage;
 
 $c = 0;
 @p = @pc = @pg = @a = @ac = @ae = @d = @lu = @ld = ();
