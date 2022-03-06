@@ -2,7 +2,10 @@
 
  To build with error on arch run the following command
 
- `export CC=gcc493/bin/gcc49 CXX=gcc493/bin/g++49 && ./install`
+ `export CC=$(pwd)/gcc49 CXX=$(pwd)/g++49 && ./install`
+
+For fish
+ `export CC=(pwd)/gcc49 CXX=(pwd)/g++49 && ./install`
 
 Dependencies
 
